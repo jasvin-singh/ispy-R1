@@ -320,6 +320,17 @@ footer .copyright {
     <video id="bgVideo" autoplay muted loop playsinline class="bg-video">
       <source src="video-1.mp4" type="video/mp4">
     </video>
+    <audio id="audio-video-1" preload="auto">
+  <source src="audio-1.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="audio-video-2" preload="auto">
+  <source src="audio-2.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="audio-video-3" preload="auto">
+  <source src="audio-3.mp3" type="audio/mpeg">
+</audio>
   </div>
 
 
@@ -331,9 +342,9 @@ footer .copyright {
   </div>
 
 <div class="sound-link">
-  <a href="#about" id="soundBtn" class="sound-btn">
-    <i class="fas fa-volume-up"></i>
-  </a>
+ <button id="soundBtn" class="sound-btn" type="button">
+  <i class="fas fa-volume-up"></i>
+</button>
 </div>
 
 </section>
@@ -991,42 +1002,7 @@ a.glass-btn[href="careers.html"]:hover {
   box-shadow: 0 6px 22px rgba(50,205,50,0.6) !important;
 }
 </style>
-<script>
-const soundBtn = document.getElementById('soundBtn');
 
-// Map hero videos → project videos
-const heroToProjectMap = {
-  "video-1.mp4": "projects-SHM.mp4",
-  "video-2.mp4": "video-2.mp4",
-  "video-3.mp4": "video-3.mp4"
-};
-
-soundBtn.addEventListener('click', () => {
-  // 1️⃣ Find currently active hero video
-  const activeBar = document.querySelector('.video-selector .bar.active');
-  if (!activeBar) return;
-
-  const heroSrc = activeBar.getAttribute('data-video');
-  const targetProjectSrc = heroToProjectMap[heroSrc];
-
-  if (!targetProjectSrc) return;
-
-  // 2️⃣ After scroll, play matching project video with sound
-  setTimeout(() => {
-    document.querySelectorAll('#about video').forEach(video => {
-      const src = video.querySelector('source')?.getAttribute('src') || '';
-
-      if (src.includes(targetProjectSrc)) {
-        video.muted = false;
-        video.volume = 1;
-        video.play().catch(()=>{});
-      } else {
-        video.pause();
-      }
-    });
-  }, 600);
-});
-</script>
 <style>
   /* Hide WhatsApp while hero (first screen) is visible */
   .whatsapp-float.hidden {
@@ -1058,7 +1034,48 @@ soundBtn.addEventListener('click', () => {
     toggleWhatsApp(); // run once on load
   });
 </script> 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const video = document.getElementById('bgVideo');
+  const soundBtn = document.getElementById('soundBtn');
 
+  const audioMap = {
+    "video-1.mp4": document.getElementById("audio-video-1"),
+    "video-2.mp4": document.getElementById("audio-video-2"),
+    "video-3.mp4": document.getElementById("audio-video-3")
+  };
+
+  if (!video || !soundBtn) return;
+
+  soundBtn.addEventListener('click', () => {
+    const activeBar = document.querySelector('.video-selector .bar.active');
+    if (!activeBar) return;
+
+    const videoSrc = activeBar.getAttribute('data-video');
+    const audio = audioMap[videoSrc];
+    if (!audio) return;
+
+    // Stop all audios
+    Object.values(audioMap).forEach(a => {
+      a.pause();
+      a.currentTime = 0;
+    });
+
+    // Restart video with sound
+    video.pause();
+    video.muted = false;
+    video.currentTime = 0;
+    video.src = videoSrc;
+    video.load();
+    video.play().catch(() => {});
+
+    // Play matching audio
+    audio.currentTime = 0;
+    audio.volume = 1;
+    audio.play().catch(() => {});
+  });
+});
+</script>
   
 </body>
 </html>
