@@ -1013,37 +1013,20 @@ a.glass-btn[href="careers.html"]:hover {
   }
 </style>
 
- <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const heroSection = document.getElementById('hero');
-    const whatsappBtn = document.querySelector('.whatsapp-float');
-
-    if (!heroSection || !whatsappBtn) return;
-
-    function toggleWhatsApp() {
-      const heroBottom = heroSection.getBoundingClientRect().bottom;
-
-      if (heroBottom > 0) {
-        whatsappBtn.classList.add('hidden');   // Hero visible
-      } else {
-        whatsappBtn.classList.remove('hidden'); // Other sections
-      }
-    }
-
-    window.addEventListener('scroll', toggleWhatsApp);
-    toggleWhatsApp(); // run once on load
-  });
-</script> 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const video = document.getElementById('bgVideo');
   const soundBtn = document.getElementById('soundBtn');
+  const icon = soundBtn.querySelector('i');
 
   const audioMap = {
     "video-1.mp4": document.getElementById("audio-video-1"),
     "video-2.mp4": document.getElementById("audio-video-2"),
     "video-3.mp4": document.getElementById("audio-video-3")
   };
+
+  let isMuted = true;
+  let currentAudio = null;
 
   if (!video || !soundBtn) return;
 
@@ -1055,24 +1038,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const audio = audioMap[videoSrc];
     if (!audio) return;
 
-    // Stop all audios
-    Object.values(audioMap).forEach(a => {
-      a.pause();
-      a.currentTime = 0;
-    });
+    if (isMuted) {
+      // 🔊 UNMUTE & RESTART
+      Object.values(audioMap).forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+      });
 
-    // Restart video with sound
-    video.pause();
-    video.muted = false;
-    video.currentTime = 0;
-    video.src = videoSrc;
-    video.load();
-    video.play().catch(() => {});
+      video.muted = false;
+      video.currentTime = 0;
+      video.src = videoSrc;
+      video.load();
+      video.play().catch(() => {});
 
-    // Play matching audio
-    audio.currentTime = 0;
-    audio.volume = 1;
-    audio.play().catch(() => {});
+      audio.currentTime = 0;
+      audio.volume = 1;
+      audio.play().catch(() => {});
+
+      icon.classList.remove('fa-volume-mute');
+      icon.classList.add('fa-volume-up');
+
+      currentAudio = audio;
+      isMuted = false;
+    } else {
+      // 🔇 MUTE
+      video.muted = true;
+      if (currentAudio) currentAudio.pause();
+
+      icon.classList.remove('fa-volume-up');
+      icon.classList.add('fa-volume-mute');
+
+      isMuted = true;
+    }
   });
 });
 </script>
