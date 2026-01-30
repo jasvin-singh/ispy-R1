@@ -1025,8 +1025,9 @@ document.addEventListener('DOMContentLoaded', () => {
     "video-3.mp4": document.getElementById("audio-video-3")
   };
 
-  let isMuted = true;
+  let isSoundOn = false;
   let currentAudio = null;
+  let currentVideoSrc = null;
 
   if (!video || !soundBtn) return;
 
@@ -1038,38 +1039,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const audio = audioMap[videoSrc];
     if (!audio) return;
 
-    if (isMuted) {
-      // 🔊 UNMUTE & RESTART
-      Object.values(audioMap).forEach(a => {
-        a.pause();
-        a.currentTime = 0;
-      });
-
-      video.muted = false;
-      video.currentTime = 0;
-      video.src = videoSrc;
-      video.load();
-      video.play().catch(() => {});
-
-      audio.currentTime = 0;
-      audio.volume = 1;
-      audio.play().catch(() => {});
-
-      icon.classList.remove('fa-volume-mute');
-      icon.classList.add('fa-volume-up');
-
-      currentAudio = audio;
-      isMuted = false;
-    } else {
-      // 🔇 MUTE
+    // 🔇 IF SOUND IS ON → MUTE
+    if (isSoundOn) {
       video.muted = true;
       if (currentAudio) currentAudio.pause();
 
       icon.classList.remove('fa-volume-up');
       icon.classList.add('fa-volume-mute');
 
-      isMuted = true;
+      isSoundOn = false;
+      return;
     }
+
+    // 🔊 SOUND IS OFF → START / RESTART
+    // Stop all audios
+    Object.values(audioMap).forEach(a => {
+      a.pause();
+      a.currentTime = 0;
+    });
+
+    // Restart video ONLY if changed
+    if (currentVideoSrc !== videoSrc) {
+      video.src = videoSrc;
+      video.load();
+    }
+
+    video.currentTime = 0;
+    video.muted = false;
+    video.play().catch(() => {});
+
+    // Play matching audio
+    audio.currentTime = 0;
+    audio.volume = 1;
+    audio.play().catch(() => {});
+
+    icon.classList.remove('fa-volume-mute');
+    icon.classList.add('fa-volume-up');
+
+    currentAudio = audio;
+    currentVideoSrc = videoSrc;
+    isSoundOn = true;
   });
 });
 </script>
