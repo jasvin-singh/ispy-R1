@@ -382,9 +382,13 @@ footer .copyright {
 
       const src = bars[activeIndex].getAttribute('data-video');
       if (src) {
-        video.src = src;
-        video.load();
-        video.play();
+       const wasMuted = video.muted;
+
+video.src = src;
+video.load();
+
+video.muted = wasMuted; // preserve user choice
+video.play();
       }
     }
 
@@ -928,13 +932,14 @@ createGlobe('globe-right', 0x00e1ff, 0.0028, true);  // Right globe (aqua)
     window.addEventListener('load', tryPlay, { once: true });
   }
 </script>
-<script>
 function enableSound() {
-  const v = document.getElementById("vid");
+  const v = document.getElementById("bgVideo");
   v.muted = false;
+  v.volume = 1;
   v.play();
+
+  event.target.style.display = "none";
 }
-</script>
 <style>
 /* 🎨 Distinct colors for the team-section buttons */
 
