@@ -319,6 +319,8 @@ footer .copyright {
     <video id="bgVideo" autoplay muted loop playsinline class="bg-video">
       <source src="video-1.mp4" type="video/mp4">
     </video>
+
+    <button onclick="enableSound()">Enable Sound</button>
   </div>
 
 
@@ -926,7 +928,13 @@ createGlobe('globe-right', 0x00e1ff, 0.0028, true);  // Right globe (aqua)
     window.addEventListener('load', tryPlay, { once: true });
   }
 </script>
-
+<script>
+function enableSound() {
+  const v = document.getElementById("vid");
+  v.muted = false;
+  v.play();
+}
+</script>
 <style>
 /* 🎨 Distinct colors for the team-section buttons */
 
