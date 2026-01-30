@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services - I Spy Animations</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Serif&display=swap" rel="stylesheet">
+
+
+  <style>
+    body {
+           margin: 0;
+           padding: 0;
+           height: 100vh;
+           width: 100vw;
+           font-family: Arial, sans-serif;
+          /* background-color: rgba(199,250,252,1); */
+           background: url('images/services-bg.jpg') no-repeat center center fixed;
+           background-size: cover;
+             background-attachment: fixed;
+             background-position: center;
+             overflow: hidden;
+     }
+
+/* Rainbow gradient backgrounds for cards */
+.carousel a:nth-child(1) .card-front { background: linear-gradient(145deg, #ff6b6b, #ff8e8e); color:#fff; }
+.carousel a:nth-child(2) .card-front { background: linear-gradient(145deg, #ffcc70, #ffb347); color:#111; }
+.carousel a:nth-child(3) .card-front { background: linear-gradient(145deg, #ffe66d, #f9d835); color:#111; }
+.carousel a:nth-child(4) .card-front { background: linear-gradient(145deg, #6bcB77, #51a352); color:#fff; }
+.carousel a:nth-child(5) .card-front { background: linear-gradient(145deg, #4dabf7, #228be6); color:#fff; }
+.carousel a:nth-child(6) .card-front { background: linear-gradient(145deg, #9775fa, #7048e8); color:#fff; }
+.carousel a:nth-child(7) .card-front { background: linear-gradient(145deg, #f783ac, #d6336c); color:#fff; }
+.carousel a:nth-child(8) .card-front { background: linear-gradient(145deg, #868e96, #495057); color:#fff; }
+
+    /* 3D Cylinder Carousel */
+    .services-section {
+      margin-top:5px;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      perspective:1500px;
+      overflow:hidden;
+    }
+    .carousel {
+      width:300px; height:300px;
+      position:relative;
+      transform-style:preserve-3d;
+      transition:transform 1s;
+      transform: rotateX(-15deg) ;
+    }
+
+   .carousel a {
+      position: absolute;
+      width: 264px;
+      height: 168px;
+      left: 20px;
+      top: 60px;
+      border-radius: 12px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      text-decoration: none;
+      transition: transform 0.4s ease;
+    }
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+
+.card-front { background: linear-gradient(145deg, #ffffff, #e6e6e6); color: #000; }
+.card-back { background: #8bb3ae; color: #fff; transform: rotateY(180deg); font-style: italic; font-size: 0.9rem; }
+.carousel a:hover { transform: rotateY(180deg) scale(1.05); }
+
+  .controls {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 20;
+}
+
+.glass-btn {
+  background: rgba(255, 255, 255, 0.15);  /* transparent white */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  backdrop-filter: blur(12px) saturate(160%); /* frosted glass blur */
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+}
+
+.glass-btn:hover {
+  background: rgba(74, 144, 226, 0.25);  /* soft blue tint */
+  transform: scale(1.05);
+  box-shadow: 0 6px 22px rgba(0,171,243,0.6);
+}
+
+.glass-btn:active {
+  transform: scale(0.97);
+  background: rgba(74, 144, 226, 0.35);
+}
+
+
+.services-heading {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #0b0b0b;
+  z-index: 5;
+}
+
+.services-heading h2 {
+
+color: #000000;  font-family: 'Noto Sans', 'Noto Serif', Matterhorn, Helvetica, sans-serif; font-size:2.4rem; transition:color 0.3s;
+  font-weight: 800;
+  letter-spacing: 10px;
+   text-transform: uppercase;
+ /* 🎨 Gradient text */
+  background: linear-gradient(90deg, #4a90e2 0%, #00c6ff 50%, #0072ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  /* 💫 Soft cinematic shadow */
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35),
+               0 0 20px rgba(0, 171, 243, 0.25);
+}
+
+.services-heading p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+.services-section {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1500px;
+  overflow: hidden;
+}
+
+   </style>
+</head>
+<body>
+
+  <!-- Services Section -->
+  <section class="services-section">
+
+  <div class="services-heading">
+    <h2>What We Create</h2>
+    <p></p>
+  </div>
+
+
+
+   <div class="carousel" id="carousel">
+  <a href="service-pages/2d-animation.html" class="card">
+    <div class="card-front">🎨 2D Animation<br>Handcrafted storytelling visuals</div>
+    <div class="card-back">Perfect for ads, films & brand storytelling.</div>
+  </a>
+  <a href="service-pages/3d-animation.html" class="card">
+    <div class="card-front">🏗 3D Animation & Modeling<br>Realistic and dynamic designs</div>
+    <div class="card-back">Great for product demos & architectural visuals.</div>
+  </a>
+  <a href="service-pages/explainer-videos.html" class="card">
+    <div class="card-front">🎥 Explainer Videos<br>Simplify complex ideas</div>
+    <div class="card-back">Engage your audience with clarity & style.</div>
+  </a>
+  <a href="service-pages/motion-graphics.html" class="card">
+    <div class="card-front">✨ Motion Graphics & VFX<br>Creative visuals for ads</div>
+    <div class="card-back">Add cinematic effects to stand out.</div>
+  </a>
+  <a href="service-pages/character-design.html" class="card">
+    <div class="card-front">👤 Character Design<br>Unique, expressive designs</div>
+    <div class="card-back">Bring imagination to life with custom characters.</div>
+  </a>
+  <a href="service-pages/ads-commercials.html" class="card">
+    <div class="card-front">📺 Animated Ads<br>Creative marketing animations</div>
+    <div class="card-back">Make your brand memorable with catchy ads.</div>
+  </a>
+  <a href="service-pages/educational-training.html" class="card">
+    <div class="card-front">🎓 Educational Animations<br>Learning made interactive</div>
+    <div class="card-back">Simplify lessons with engaging visuals.</div>
+  </a>
+  <a href="service-pages/social-media.html" class="card">
+    <div class="card-front">📱 Social Media Animation<br>Trendy, share-worthy reels</div>
+    <div class="card-back">Boost engagement with fast, viral animations.</div>
+  </a>
+</div>
+
+   <div class="controls">
+  <button class="glass-btn" onclick="rotateCarousel(-1)">◄◄</button>
+  <button class="glass-btn" onclick="rotateCarousel(1)">►►</button>
+</div>
+  </section>
+
+ 
+  <script>
+  /* Cylinder Rotation Logic */
+  const carousel = document.getElementById("carousel");
+  const items = carousel.querySelectorAll("a");
+  let angle = 0;
+  const step = 360 / items.length;
+
+  items.forEach((item, i) => {
+    const rotation = i * step;
+    item.style.transform = `rotateY(${rotation}deg) translateZ(480px)`;
+  });
+
+  function rotateCarousel(dir){
+    angle += dir * step;
+    carousel.style.transform = `rotateX(-15deg) rotateY(${angle}deg)`; 
+  }
+
+  /* --- Mouse Drag & Touch Swipe --- */
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
+  function onDragStart(e){
+    isDragging = true;
+    startX = e.pageX || e.touches[0].pageX;
+  }
+
+  function onDragMove(e){
+    if(!isDragging) return;
+    currentX = e.pageX || e.touches[0].pageX;
+    let deltaX = currentX - startX;
+    carousel.style.transform = `rotateX(-15deg) rotateY(${angle + deltaX/2}deg)`;
+  }
+
+  function onDragEnd(e){
+    if(!isDragging) return;
+    isDragging = false;
+    let endX = e.pageX || (e.changedTouches ? e.changedTouches[0].pageX : startX);
+    let deltaX = endX - startX;
+
+    angle += deltaX/2;
+    angle = Math.round(angle / step) * step;
+    carousel.style.transform = `rotateX(-15deg) rotateY(${angle}deg)`;
+  }
+
+  carousel.addEventListener("mousedown", onDragStart);
+  carousel.addEventListener("mousemove", onDragMove);
+  carousel.addEventListener("mouseup", onDragEnd);
+  carousel.addEventListener("mouseleave", onDragEnd);
+
+  carousel.addEventListener("touchstart", onDragStart);
+  carousel.addEventListener("touchmove", onDragMove);
+  carousel.addEventListener("touchend", onDragEnd);
+
+ // --- Auto Rotate (Option 3) ---
+  let autoRotate;
+
+  function startAutoRotate() {
+    autoRotate = setInterval(() => rotateCarousel(1), 3000);
+  }
+
+  function stopAutoRotate() {
+    clearInterval(autoRotate);
+  }
+
+  // Start rotation initially
+  startAutoRotate();
+
+  // Pause rotation when user interacts
+  carousel.addEventListener("mouseenter", stopAutoRotate);
+  carousel.addEventListener("mousedown", stopAutoRotate);
+  carousel.addEventListener("touchstart", stopAutoRotate);
+
+  // Resume rotation after interaction ends
+  carousel.addEventListener("mouseleave", startAutoRotate);
+  carousel.addEventListener("mouseup", startAutoRotate);
+  carousel.addEventListener("touchend", startAutoRotate);
+
+
+
+
+
+  </script>
+
+</body>
+</html>
