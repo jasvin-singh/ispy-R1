@@ -330,14 +330,8 @@ footer .copyright {
     <span class="bar" data-video="video-2.mp4"></span>
   </div>
 
-<div class="sound-links">
-  <a href="#about" data-target-video="projects-SHM.mp4" class="sound-btn">
-    <i class="fas fa-volume-up"></i>
-  </a>
-  <a href="#about" data-target-video="video-3.mp4" class="sound-btn">
-    <i class="fas fa-volume-up"></i>
-  </a>
-  <a href="#about" data-target-video="video-2.mp4" class="sound-btn">
+<div class="sound-link">
+  <a href="#about" id="soundBtn" class="sound-btn">
     <i class="fas fa-volume-up"></i>
   </a>
 </div>
@@ -804,18 +798,16 @@ background: url('images/services-bg.jpg') no-repeat center center/cover;
    it serves as a graceful fallback if the video fails to load.) */
 
 
-.sound-links {
+.sound-link {
   position: absolute;
   bottom: 80px;
   right: 40px;
-  display: flex;
-  gap: 16px;
   z-index: 12;
 }
 
 .sound-btn {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1000,24 +992,39 @@ a.glass-btn[href="careers.html"]:hover {
 }
 </style>
 <script>
-document.querySelectorAll('.sound-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const targetSrc = btn.dataset.targetVideo;
+const soundBtn = document.getElementById('soundBtn');
 
-    setTimeout(() => {
-      document.querySelectorAll('#about video').forEach(v => {
-        const src = v.querySelector('source')?.getAttribute('src') || '';
+// Map hero videos → project videos
+const heroToProjectMap = {
+  "video-1.mp4": "projects-SHM.mp4",
+  "video-2.mp4": "video-2.mp4",
+  "video-3.mp4": "video-3.mp4"
+};
 
-        if (src.includes(targetSrc)) {
-          v.muted = false;
-          v.volume = 1;
-          v.play().catch(()=>{});
-        } else {
-          v.pause();
-        }
-      });
-    }, 600);
-  });
+soundBtn.addEventListener('click', () => {
+  // 1️⃣ Find currently active hero video
+  const activeBar = document.querySelector('.video-selector .bar.active');
+  if (!activeBar) return;
+
+  const heroSrc = activeBar.getAttribute('data-video');
+  const targetProjectSrc = heroToProjectMap[heroSrc];
+
+  if (!targetProjectSrc) return;
+
+  // 2️⃣ After scroll, play matching project video with sound
+  setTimeout(() => {
+    document.querySelectorAll('#about video').forEach(video => {
+      const src = video.querySelector('source')?.getAttribute('src') || '';
+
+      if (src.includes(targetProjectSrc)) {
+        video.muted = false;
+        video.volume = 1;
+        video.play().catch(()=>{});
+      } else {
+        video.pause();
+      }
+    });
+  }, 600);
 });
 </script>
 </body>
