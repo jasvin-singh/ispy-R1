@@ -1027,5 +1027,38 @@ soundBtn.addEventListener('click', () => {
   }, 600);
 });
 </script>
+<style>
+  /* Hide WhatsApp while hero (first screen) is visible */
+  .whatsapp-float.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+</style>
+
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroSection = document.getElementById('hero');
+    const whatsappBtn = document.querySelector('.whatsapp-float');
+
+    if (!heroSection || !whatsappBtn) return;
+
+    function toggleWhatsApp() {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+
+      if (heroBottom > 0) {
+        whatsappBtn.classList.add('hidden');   // Hero visible
+      } else {
+        whatsappBtn.classList.remove('hidden'); // Other sections
+      }
+    }
+
+    window.addEventListener('scroll', toggleWhatsApp);
+    toggleWhatsApp(); // run once on load
+  });
+</script> 
+
+  
 </body>
 </html>
