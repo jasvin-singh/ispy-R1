@@ -374,25 +374,23 @@ footer .copyright {
     let activeIndex = [...bars].findIndex(b => b.classList.contains('active'));
     if (activeIndex === -1) activeIndex = 0;
 
-    function playVideoAt(index) {
-      if (index < 0) index = bars.length - 1;
-      if (index >= bars.length) index = 0;
-      activeIndex = index;
+   function playVideoAt(index) {
+  if (index < 0) index = bars.length - 1;
+  if (index >= bars.length) index = 0;
+  activeIndex = index;
 
-      bars.forEach(b => b.classList.remove('active'));
-      bars[activeIndex].classList.add('active');
+  bars.forEach(b => b.classList.remove('active'));
+  bars[activeIndex].classList.add('active');
 
-      const src = bars[activeIndex].getAttribute('data-video');
-      if (src) {
-       const wasMuted = video.muted;
+  const src = bars[activeIndex].getAttribute('data-video');
+  if (src) {
+    video.src = src;
+    video.load();
 
-video.src = src;
-video.load();
-
-video.muted = wasMuted; // preserve user choice
-video.play();
-      }
-    }
+    // ✅ NEVER re-mute once user has enabled sound
+    video.play().catch(() => {});
+  }
+}
 
     // Click handlers for bars
     bars.forEach((bar, i) => {
@@ -847,7 +845,7 @@ window.addEventListener('scroll', () => {
       if (playAttempt && typeof playAttempt.then === 'function') {
         playAttempt.catch(() => {
           // If autoplay is blocked, force mute (usually already set) and retry
-          video.muted = true;
+          video.muted = false;
           video.play();
         });
       }
